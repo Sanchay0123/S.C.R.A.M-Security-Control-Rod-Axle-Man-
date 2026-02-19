@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+venv/
+env/
+.env
+
+# C / Compilation Artifacts
+*.o
+*.out
+*.so
+src/muscle/scram_muscle  # The compiled binary name
+bin/
+
+# SCRAM Specific
+logs/
+config/*.yaml            # Never commit production configs!
+!config/example_config.yaml
+.DS_Store
