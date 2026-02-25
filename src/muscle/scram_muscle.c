@@ -110,31 +110,68 @@ int neutralize_intruder(char *device_path) {
     return 0;
 }
 
+
+// THE QUARANTINE: Remounts /home as Read-Only (Bunker Mode)
+// THE QUARANTINE: Remounts /home or forces a Kernel-level Read-Only Lock
+int quarantine_home() {
+    printf("[*] BUNKER MODE: Quarantining /home...\n");
+    
+    // Attempt polite remount first
+    int ret = system("mount -o remount,ro /home 2>/dev/null");
+    
+    if (ret == 0) {
+        printf("[+] SUCCESS: /home is now READ-ONLY.\n");
+        return 0;
+    } else {
+        printf("[!] /home is busy or not a separate partition.\n");
+        printf("[*] Engaging Kernel Emergency Read-Only Lock (SysRq-U)...\n");
+        
+        // 1. Ensure SysRq is enabled in the kernel
+        system("echo 1 > /proc/sys/kernel/sysrq");
+        
+        // 2. Send the 'u' command: Emergency Remount Read-Only
+        system("echo u > /proc/sysrq-trigger");
+        
+        printf("[+] SUCCESS: Kernel forcefully locked ALL drives to READ-ONLY.\n");
+        return 0;
+    }
+}
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        print_usage(argv[0]);
+    // 1. We must have at least a command
+    if (argc < 2) {
+        printf("Usage: %s <command> [device]\n", argv[0]);
         return 1;
     }
 
     char *command = argv[1];
-    char *device = argv[2];
 
-    if (geteuid() != 0) {
-        fprintf(stderr, "[-] Error: SCRAM Muscle requires ROOT privileges.\n");
+    // 2. Check commands that DO NOT need a device argument first
+    if (strcmp(command, "--quarantine") == 0) {
+        return quarantine_home();
+    }
+
+    // 3. If it's not quarantine, it MUST have a device argument
+    if (argc < 3) {
+        printf("Error: This command requires a device target.\n");
+        printf("Commands:\n");
+        printf("  --lock <device>\n");
+        printf("  --self-destruct <device>\n");
+        printf("  --neutralize <device>\n");
+        printf("  --quarantine\n");
         return 1;
     }
 
-    if (strcmp(command, CMD_LOCK) == 0) {
-        return set_readonly(device);
-    } 
-    else if (strcmp(command, CMD_SELF_DESTRUCT) == 0) {
-        return wipe_headers_vm(device);
-    }
-    else if (strcmp(command, CMD_NEUTRALIZE) == 0) {
-        return neutralize_intruder(device);
-    }
-    else {
-        print_usage(argv[0]);
+    char *device_path = argv[2];
+
+    // 4. Check commands that DO need a device argument
+    if (strcmp(command, "--lock") == 0) {
+        return set_readonly(device_path);
+    } else if (strcmp(command, "--self-destruct") == 0) {
+        return wipe_headers_vm(device_path);
+    } else if (strcmp(command, "--neutralize") == 0) {
+        return neutralize_intruder(device_path);
+    } else {
+        printf("[!] Unknown command: %s\n", command);
         return 1;
     }
 }

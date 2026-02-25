@@ -1,20 +1,23 @@
 general:
-  # Options: bunker, vanish, lockdown
-  default_mode: "bunker"
-  watchdog_timeout: 300 
+  # Options: bunker (destroy), vanish (scrub), lockdown (freeze)
+  default_mode: "bunker" 
+  watchdog_timeout: 30 
   safe_password: "LiveFreeOrDie"
   duress_password: "password123"
 
+system:
+  # SAFE TEST TARGET (pointing to your dummy file for now!)
+  self_destruct_target: "/home/sanchay-jain/Desktop/dummy_drive.img" 
+  network_interface: "enp0s3"
+
 modes:
   vanish:
-    # Files to scrub (Shell globs supported)
+    # Files/Directories to securely shred before vanishing
     target_paths:
       - "/var/log/syslog"
       - "/var/log/auth.log"
       - "/home/*/.bash_history"
       - "/tmp/*"
-  
   canary:
     enabled: true
-    # The file to watch. If touched, PANIC.
     filepath: "/home/sanchay-jain/Desktop/passwords_DO_NOT_OPEN.txt"
