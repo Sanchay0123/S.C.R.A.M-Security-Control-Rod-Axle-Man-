@@ -1,0 +1,20 @@
+general:
+  # Options: bunker, vanish, lockdown
+  default_mode: "bunker"
+  watchdog_timeout: 300 
+  safe_password: "LiveFreeOrDie"
+  duress_password: "password123"
+
+modes:
+  vanish:
+    # Files to scrub (Shell globs supported)
+    target_paths:
+      - "/var/log/syslog"
+      - "/var/log/auth.log"
+      - "/home/*/.bash_history"
+      - "/tmp/*"
+  
+  canary:
+    enabled: true
+    # The file to watch. If touched, PANIC.
+    filepath: "/home/sanchay-jain/Desktop/passwords_DO_NOT_OPEN.txt"
