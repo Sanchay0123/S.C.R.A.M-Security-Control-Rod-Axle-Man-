@@ -1,0 +1,30 @@
+/etc/systemd/system/scram.service (location)
+
+[Unit]
+Description=SCRAM Anti-Forensics Defense Daemon
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/sanchay-jain/SCRAM
+# Point this directly to your Python executable and Brain script
+ExecStart=/usr/bin/python3 /home/sanchay-jain/SCRAM/src/brain/scram_brain.py --standby
+# If the script crashes for some reason, restart it automatically
+Restart=on-failure
+RestartSec=5
+
+# Security restrictions to protect the daemon itself
+ProtectSystem=full
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+after placement commands
+sudo systemctl daemon-reload
+sudo systemctl enable scram.service
+sudo systemctl start scram.service
+sudo journalctl -u scram.service -f

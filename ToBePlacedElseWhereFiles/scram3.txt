@@ -1,0 +1,10 @@
+/usr/local/bin/vanish
+
+#!/bin/bash
+# SCRAM Global Panic Override - Ghost Protocol
+
+echo "[!!!] GLOBAL PANIC OVERRIDE ENGAGED [!!!]"
+# Execute the Brain instantly, bypassing the timer
+sudo python3 /home/sanchay-jain/SCRAM/src/brain/scram_brain.py --vanish
+
+sudo chmod +x /usr/local/bin/vanish

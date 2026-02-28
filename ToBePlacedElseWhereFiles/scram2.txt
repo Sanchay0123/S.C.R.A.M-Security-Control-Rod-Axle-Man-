@@ -1,0 +1,22 @@
+/etc/systemd/system/scram-canary.service
+
+[Unit]
+Description=SCRAM Canary File Sentry
+# Ensure this only starts AFTER the main Brain is up and running
+After=scram.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/sanchay-jain/SCRAM
+ExecStart=/usr/bin/python3 /home/sanchay-jain/SCRAM/src/sentry/scram_canary.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable scram-canary.service
+sudo systemctl start scram-canary.service
