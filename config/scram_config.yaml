@@ -1,7 +1,7 @@
 general:
   # Options: bunker (destroy), vanish (scrub), lockdown (freeze)
   default_mode: "bunker" 
-  watchdog_timeout: 30 
+  watchdog_timeout: 300 
   safe_password: "LiveFreeOrDie"
   duress_password: "password123"
 
@@ -18,6 +18,12 @@ modes:
       - "/var/log/auth.log"
       - "/home/*/.bash_history"
       - "/tmp/*"
+  modes:
   canary:
     enabled: true
-    filepath: "/home/sanchay-jain/Desktop/passwords_DO_NOT_OPEN.txt"
+    filepath: "/home/sanchay-jain/Desktop/Crypto_Wallets.txt"
+    
+  usb_sentry:
+    enabled: true
+    whitelist:
+      - "0781:558a"  # Replace with USB ID from lsusb
