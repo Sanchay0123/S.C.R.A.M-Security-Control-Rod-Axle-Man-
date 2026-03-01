@@ -44,5 +44,5 @@ SCRAM is divided into three primary layers:
 
 1. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/theimmortalcreator/SCRAM.git](https://github.com/theimmortalcreator/SCRAM.git)
+   git clone [https://github.com/Sanchay0123/SCRAM.git](https://github.com/Sanchay0123/SCRAM.git)
    cd SCRAM
