@@ -1,7 +1,7 @@
 general:
   # Options: bunker (destroy), vanish (scrub), lockdown (freeze)
   default_mode: "bunker" 
-  watchdog_timeout: 3
+  watchdog_timeout: 300
   safe_password: "LiveFreeOrDie"
   duress_password: "password123"
 
@@ -22,9 +22,9 @@ modes:
   modes:
   canary:
     enabled: true
-    filepath: "/home/sanchay-jain/Desktop/Crypto_Wallets.txt"
+    filepath: "/home/sanchay-jain/Desktop/Crypto_Wallets.txt" #change to your desired as well as in canary.py
     
   usb_sentry:
     enabled: true
     whitelist:
-      - "0781:558a"  # Replace with USB ID from lsusb
+      - "ID"  # Replace with USB ID from lsusb
